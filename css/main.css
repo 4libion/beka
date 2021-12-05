@@ -1,0 +1,26 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+
+* {
+    font-family: 'Poppins', sans-serif;
+}
+
+footer {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.brand {
+    background: #d3d0cd !important;
+}
+.brand-text {
+    color: #cbb09c !important;
+}
+
+/* .row > div {
+    padding: 10px;
+    line-height: 50px;
+} */

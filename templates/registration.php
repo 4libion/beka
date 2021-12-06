@@ -15,6 +15,12 @@
             width: 100%;
             overflow: hidden;
         }
+        #toast-container {
+            top: auto !important;
+            right: auto !important;
+            bottom: 80%;
+            left:31%;  
+        }
     </style>
 </head>
     <body class="grey lighten-4">
@@ -45,6 +51,7 @@
                     <i class="material-icons prefix">local_post_office</i>
                     <input name="email" id="email" type="email" class="validate">
                     <label for="email">Email</label>
+                    <span class="helper-text" data-error="wrong format" data-success="right format"></span>
                 </div>
 
                 <div class="input-field col s6">
@@ -59,7 +66,9 @@
             <div class="row">
                 <div class="input-field col s6">
                     <i class="material-icons prefix">lock_outline</i>
-                    <input name="password" id="password" type="password" class="validate">
+                    <input class="toaster" onclick="
+                    M.toast({html: 'Your Password Must Contain At Least 8 Characters! <br> Your Password Must Contain At Least 1 Number! <br> Your Password Must Contain At Least 1 Capital Letter! <br> Your Password Must Contain At Least 1 Lowercase Letter! <br>', displayLength: 20000, classes: 'rounded'})" 
+                    name="password" id="password" type="password" class="validate">
                     <label for="password">Password</label>
                 </div>
 
@@ -88,6 +97,6 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             var elems = document.querySelectorAll('select');
-            var instances = M.FormSelect.init(elems, {});
+            var instances = M.FormSelect.init(elems);
         });
     </script>

@@ -1,9 +1,13 @@
 <?php
     session_start();
+    if (!$_SESSION['user']) {
+        $_SESSION['message'] = 'You need to sign in!';
+        header('Location: /login.php');
+    }
 ?>
 <head>
     <title>Coursemaster!</title>
-
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <!-- Compiled and minified CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
@@ -36,13 +40,18 @@
                             echo '<li><a href="../dashboard.php" class="brand z-depth-0">Admin Panel</a></li>';
                         }
                     ?>
+                    <li><a href="../dashboard.php" class="brand z-depth-0">Dashboard</a></li>
                     <?php
                         if ($_SESSION['user']['status'] == 'student') {
                             echo '<li><a href="../courses.php" class="brand z-depth-0">Take course</a></li>';
                         }
                     ?>
                     <li><a href="../requests.php" class="brand z-depth-0">Requests</a></li>
-                    <li><a href="../dashboard.php" class="brand z-depth-0">Dashboard</a></li>
+                    <?php
+                        if ($_SESSION['user']['status'] == 'teacher') {
+                            echo '<li><a href="../schedule.php" class="brand z-depth-0">Schedule</a></li>';
+                        }
+                    ?>
                     <li><a href="../vendor/logout.php" class="brand z-depth-0">Logout</a></li>
                 </ul>
             </div>

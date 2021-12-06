@@ -10,17 +10,9 @@
 
     <?php
         if ($_SESSION['user']['status'] == 'student') {
-            $sql = "SELECT * FROM `requests` WHERE `student_id` =". $_SESSION['user']['id'] ." AND `status` = 'waitlist'";
+            $sql = "SELECT users.first_name, requests.date, requests.id, requests.status FROM requests INNER JOIN users ON users.id = requests.teacher_id WHERE requests.student_id =".$_SESSION['user']['id'].";";
         } else if ($_SESSION['user']['status'] == 'teacher') {
-            $sql = "SELECT * FROM `requests` WHERE `teacher_id` =". $_SESSION['user']['id'] ." AND `status` = 'waitlist'";
-        }
-        $requests = mysqli_query($connection, $sql);
-        $results = mysqli_num_rows($requests);
-
-        if ($_SESSION['user']['status'] == 'student') {
-            $sql = "SELECT users.first_name, requests.date, requests.id FROM requests INNER JOIN users ON users.id = requests.teacher_id WHERE requests.student_id =".$_SESSION['user']['id']." AND requests.status = 'waitlist';";
-        } else if ($_SESSION['user']['status'] == 'teacher') {
-            $sql = "SELECT users.first_name, requests.date, requests.id FROM requests INNER JOIN users ON users.id = requests.student_id WHERE requests.teacher_id =".$_SESSION['user']['id']." AND requests.status  = 'waitlist';";
+            $sql = "SELECT users.first_name, requests.date, requests.id, requests.status FROM requests INNER JOIN users ON users.id = requests.student_id WHERE requests.teacher_id =".$_SESSION['user']['id']." AND requests.status = 'waitlist';";
         }
         // echo $sql;
         $question = mysqli_query($connection, $sql);
@@ -30,14 +22,17 @@
             $date = explode(' ',$row['date']);
             if ($_SESSION['user']['status'] == 'student') {
                 echo '<div class="col s4">
-                            <div class="card blue-grey darken-1">
-                                <div class="card-content white-text">
-                                    <span class="card-title">'. $row['first_name'] .'</span>
-                                    <p>Date: '. $date[0] .'</p>
-                                    <p>Time: '. $date[1] .'</p>
-                                </div>
+                        <div class="card blue-grey darken-1">
+                            <div class="card-content white-text">
+                                <span class="card-title">'. $row['first_name'] .'</span>
+                                <p>Date: '. $date[0] .'</p>
+                                <p>Time: '. $date[1] .'</p>
+                                <p>Status: '. $row['status'] .' </p>
                             </div>
-                        </div>';   
+                        </div>
+                    </div>'; 
+                
+                  
             } else if ($_SESSION['user']['status'] == 'teacher') {
                 echo '<div class="col s4">
                         <div class="card blue-grey darken-1">

@@ -7,11 +7,17 @@
     if ($response == 'accept') {
         $sql = "UPDATE `requests` SET `status` = 'accepted' WHERE `id` = $id";
         $_SESSION['message'] = 'Successfully accepted!';
-    } else {
+        mysqli_query($connection, $sql);
+        header('Location: ../requests.php');
+    } else if ($response == 'reject') {
         $sql = "UPDATE `requests` SET `status` = 'rejected' WHERE `id` = $id";
         $_SESSION['message'] = 'Successfully rejected!';
+        mysqli_query($connection, $sql);
+        header('Location: ../requests.php');
+    } else if ($response == 'delete') {
+        $sql = "DELETE FROM `requests` WHERE `id` = $id";
+        mysqli_query($connection, $sql);
+        header('Location: ../dashboard.php');
     }
-    mysqli_query($connection, $sql);
-
-    header('Location: ../requests.php');
+    
 ?>

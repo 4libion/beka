@@ -4,6 +4,15 @@
     font-family: 'Poppins', sans-serif;
 }
 
+body {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+}
+main {
+    flex: 1 0 auto;
+}
+
 footer {
     -webkit-touch-callout: none;
     -webkit-user-select: none;
@@ -19,8 +28,3 @@ footer {
 .brand-text {
     color: #cbb09c !important;
 }
-
-/* .row > div {
-    padding: 10px;
-    line-height: 50px;
-} */

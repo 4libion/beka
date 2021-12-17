@@ -31,8 +31,9 @@
         }
         unset($_SESSION['message']);
     ?>
+    <!-- Login form -->
     <div class="row valign-wrapper center-align">
-        <!-- <div class="col"></div> -->
+        <!-- This form's inputs will be sent to the login.php file in vendor folder which will render it -->
         <form action="../vendor/login.php" class="col s6 offset-s3" method="POST">
             <div class="row">
                 <h3 class="center-align col s12">Login</h3>

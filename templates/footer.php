@@ -1,3 +1,4 @@
+    <!-- This page is used in all pages as footer -->
     <footer class="section">
         <div class="center grey-text">
             © Copyright, Coursemaster <?php echo date("Y"); ?>

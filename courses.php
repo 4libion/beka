@@ -1,3 +1,4 @@
+<!-- This is a page where student can send request to the teacher -->
 <!DOCTYPE html>
 <html>
 
@@ -11,27 +12,43 @@
     }
 </style>
 
-<?php include('templates/header.php'); ?>
+<?php include('templates/header.php');?>
 
 <div class="row">
+        <!-- Request form for student -->
         <form action="../vendor/request.php" class="col s6 offset-s3" method="POST">
             <h3 class="center-align">Send request to teacher</h3>
 
             <div class="row">
                 <div class="input-field col s6">
                     <i class="material-icons prefix">reorder</i>
-                    <select name="teacher" id="teacher" onchange="populate(this.id, 'schedule')">
-                        <option value=""></option>
-                        <option value="Talgat">Talgat agai</option>
-                        <option value="Berik">Berik agai</option>
+
+                    <?php
+                        include_once('vendor/database.php');
+                        // Getting users with teacher status from users table and adding them as options in select tag
+                        $sql = "SELECT * FROM `users` WHERE `status` = 'teacher' ORDER BY `first_name`;";
+                        $result = $connection -> query($sql);
+                    ?>
+                    <select name="teacher" id="teacher" onchange="fetch_date(this.value)">
+                        <option value="">Teacher</option>
+                        <?php
+                            if ($result -> num_rows > 0) {
+                                while ($row = $result -> fetch_assoc()) {
+                                    echo '<option value='. $row['id'] .'>'. $row['first_name'] .'</option>';
+                                }
+                            }
+                        ?>
                     </select>
                     <label for="teacher">Teacher</label>
                 </div>
 
+                <!-- Date options depends on selected teacher -->
                 <div class="input-field col s6">
                     <i class="material-icons prefix">reorder</i>
-                    <select name="date" id="schedule"></select>
-                    <label for="schedule">Date</label>
+                    <select name="date" id="date">
+                        <option value="">Date</option>    
+                    </select>
+                    <label for="date">Date</label>
                 </div>
             </div>
 
@@ -44,94 +61,31 @@
     </div>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script type="text/javascript">
+    <script>
+        // Initialization of some materialize classes
         $(document).ready(function(){
             $('select').formSelect();
         });
 
-        function populate(s1, s2) {
-            console.log(s1, s2);
-            var s1 = document.getElementById(s1);
-            var s2 = document.getElementById(s2);
-            s2.innerHTML = "";
-            if (s1.value == 'Talgat') {
-                var option_array = ['|', '6.12.2021 8:00-8:40|6.12.2021 8:00-8:40', '7.12.2021 8:00-8:40|7.12.2021 8:00-8:40', '7.23.2021 15:00-15:40|7.23.2021 15:00-15:40'];
-            }
-            for (var option in option_array) {
-                var pair = option_array[option].split('|');
-                var new_option = document.createElement('option');
-                new_option.value = pair[0];
-                new_option.innerHTML = pair[1];
-                s2.options.add(new_option);
-                console.log('added!');
-                $('select').on('contentChanged', function() {
-                    $(this).formSelect().append($('<option>'+new_option+'</option>'));
-                });
-            }
-            console.log(s1);
-            console.log(s2);
-            $(document).ready(function(){
-                $('select').formSelect();
+        // Function used to connect ajax functionality to the select tags for teacher
+        function fetch_date(id) {
+            console.log(id);
+            $('date').html('');
+            $.ajax({
+                type: 'post',
+                url: 'ajaxdata.php',
+                data: {teacher_id: id},
+                success: function(data) {
+                    console.log(data);
+                    $('#date').html(data);
+                }
             });
         }
+
+        $(document).ready(function(){
+            $('select').formSelect();
+        });
     </script>
-
-<!-- <div class="row">
-    <div class="col s6">
-        <div class="card red lighten-3">
-        <div class="card-content white-text">
-            <span class="card-title">Math</span>
-            <p>I am a very simple card. I am good at containing small bits of information.
-            I am convenient because I require little markup to use effectively.</p>
-        </div>
-        <div class="card-action">
-            <a class="white-text" href="/course.php?course=math">Go</a>
-        </div>
-        </div>
-    </div>
-
-    <div class="col s6">
-        <div class="card teal lighten-4">
-        <div class="card-content white-text">
-            <span class="card-title">Physics</span>
-            <p>I am a very simple card. I am good at containing small bits of information.
-            I am convenient because I require little markup to use effectively.</p>
-        </div>
-        <div class="card-action">
-            <a class="white-text" href="/course.php?course=physics">Go</a>
-        </div>
-        </div>
-    </div>
-</div>
-
-<div class="row">
-    <div class="col s6">
-        <div class="card purple lighten-3">
-        <div class="card-content white-text">
-            <span class="card-title">Chemistry</span>
-            <p>I am a very simple card. I am good at containing small bits of information.
-            I am convenient because I require little markup to use effectively.</p>
-        </div>
-        <div class="card-action">
-            <a class="white-text" href="/course.php?course=chemistry">Go</a>
-        </div>
-        </div>
-    </div>
-
-    <div class="col s6">
-        <div class="card green lighten-4">
-        <div class="card-content white-text">
-            <span class="card-title">Biology</span>
-            <p>I am a very simple card. I am good at containing small bits of information.
-            I am convenient because I require little markup to use effectively.</p>
-        </div>
-        <div class="card-action">
-            <a class="white-text" href="/course.php?course=biology">Go</a>
-        </div>
-        </div>
-    </div>
-</div> -->
-
 <?php include('templates/footer.php'); ?>
 
 </html>

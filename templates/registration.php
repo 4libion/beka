@@ -31,7 +31,9 @@
         unset($_SESSION['message']);
     ?>
     <div class="row">
+        <!-- Registration form -->
         <form action="../vendor/registration.php" class="col s6 offset-s3" method="POST">
+            <!-- The data from this form will be sent to the registration.php file in vendor folder to be rendered -->
             <h3 class="center-align">Registration</h3>
             <div class="row">
                 <div class="input-field col s6">
@@ -66,6 +68,7 @@
             <div class="row">
                 <div class="input-field col s6">
                     <i class="material-icons prefix">lock_outline</i>
+                    <!-- Added some script when you click password field toast(alert) will be displayed -->
                     <input class="toaster" onclick="
                     M.toast({html: 'Your Password Must Contain At Least 8 Characters! <br> Your Password Must Contain At Least 1 Number! <br> Your Password Must Contain At Least 1 Capital Letter! <br> Your Password Must Contain At Least 1 Lowercase Letter! <br>', displayLength: 20000, classes: 'rounded'})" 
                     name="password" id="password" type="password" class="validate">
